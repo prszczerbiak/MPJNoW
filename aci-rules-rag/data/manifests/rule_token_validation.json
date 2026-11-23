@@ -1,0 +1,249 @@
+{
+  "rules_sha256": "f58547cb07207977c96ef1a3f26eb9cd94cd6ca08be0591ace7964b2c6998d33",
+  "generator_tokenizer": "Qwen/Qwen2.5-3B-Instruct",
+  "generator_revision": "aa8e72537993ba99e69dfaafa59ed015b17504d1",
+  "encoder_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "special_tokens_included": false,
+  "rule_counts": {
+    "G01": {
+      "generator_tokens": 16,
+      "encoder_tokens": 18
+    },
+    "G02": {
+      "generator_tokens": 18,
+      "encoder_tokens": 19
+    },
+    "G03": {
+      "generator_tokens": 17,
+      "encoder_tokens": 17
+    },
+    "G04": {
+      "generator_tokens": 16,
+      "encoder_tokens": 15
+    },
+    "G05": {
+      "generator_tokens": 15,
+      "encoder_tokens": 14
+    },
+    "G06": {
+      "generator_tokens": 15,
+      "encoder_tokens": 14
+    },
+    "G07": {
+      "generator_tokens": 14,
+      "encoder_tokens": 16
+    },
+    "G08": {
+      "generator_tokens": 9,
+      "encoder_tokens": 8
+    },
+    "G09": {
+      "generator_tokens": 12,
+      "encoder_tokens": 11
+    },
+    "G10": {
+      "generator_tokens": 11,
+      "encoder_tokens": 14
+    },
+    "G11": {
+      "generator_tokens": 14,
+      "encoder_tokens": 13
+    },
+    "G12": {
+      "generator_tokens": 13,
+      "encoder_tokens": 13
+    },
+    "S01": {
+      "generator_tokens": 17,
+      "encoder_tokens": 18
+    },
+    "S02": {
+      "generator_tokens": 16,
+      "encoder_tokens": 18
+    },
+    "S03": {
+      "generator_tokens": 18,
+      "encoder_tokens": 17
+    },
+    "S04": {
+      "generator_tokens": 13,
+      "encoder_tokens": 16
+    },
+    "S05": {
+      "generator_tokens": 16,
+      "encoder_tokens": 16
+    },
+    "S06": {
+      "generator_tokens": 18,
+      "encoder_tokens": 17
+    },
+    "S07": {
+      "generator_tokens": 16,
+      "encoder_tokens": 16
+    },
+    "S08": {
+      "generator_tokens": 14,
+      "encoder_tokens": 14
+    },
+    "S09": {
+      "generator_tokens": 14,
+      "encoder_tokens": 17
+    },
+    "S10": {
+      "generator_tokens": 15,
+      "encoder_tokens": 15
+    },
+    "S11": {
+      "generator_tokens": 17,
+      "encoder_tokens": 16
+    },
+    "S12": {
+      "generator_tokens": 14,
+      "encoder_tokens": 14
+    },
+    "S13": {
+      "generator_tokens": 19,
+      "encoder_tokens": 20
+    },
+    "S14": {
+      "generator_tokens": 10,
+      "encoder_tokens": 9
+    },
+    "S15": {
+      "generator_tokens": 15,
+      "encoder_tokens": 15
+    },
+    "S16": {
+      "generator_tokens": 12,
+      "encoder_tokens": 13
+    },
+    "S17": {
+      "generator_tokens": 14,
+      "encoder_tokens": 13
+    },
+    "S18": {
+      "generator_tokens": 18,
+      "encoder_tokens": 19
+    },
+    "S19": {
+      "generator_tokens": 11,
+      "encoder_tokens": 12
+    },
+    "S20": {
+      "generator_tokens": 14,
+      "encoder_tokens": 14
+    },
+    "S21": {
+      "generator_tokens": 11,
+      "encoder_tokens": 11
+    },
+    "S22": {
+      "generator_tokens": 11,
+      "encoder_tokens": 11
+    },
+    "S23": {
+      "generator_tokens": 16,
+      "encoder_tokens": 15
+    },
+    "S24": {
+      "generator_tokens": 18,
+      "encoder_tokens": 18
+    },
+    "S25": {
+      "generator_tokens": 12,
+      "encoder_tokens": 12
+    },
+    "S26": {
+      "generator_tokens": 15,
+      "encoder_tokens": 14
+    },
+    "S27": {
+      "generator_tokens": 10,
+      "encoder_tokens": 9
+    },
+    "S28": {
+      "generator_tokens": 12,
+      "encoder_tokens": 12
+    },
+    "S29": {
+      "generator_tokens": 15,
+      "encoder_tokens": 16
+    },
+    "S30": {
+      "generator_tokens": 15,
+      "encoder_tokens": 14
+    },
+    "S31": {
+      "generator_tokens": 12,
+      "encoder_tokens": 13
+    },
+    "S32": {
+      "generator_tokens": 15,
+      "encoder_tokens": 19
+    },
+    "S33": {
+      "generator_tokens": 13,
+      "encoder_tokens": 14
+    },
+    "S34": {
+      "generator_tokens": 16,
+      "encoder_tokens": 17
+    },
+    "S35": {
+      "generator_tokens": 14,
+      "encoder_tokens": 13
+    },
+    "S36": {
+      "generator_tokens": 16,
+      "encoder_tokens": 24
+    },
+    "S37": {
+      "generator_tokens": 10,
+      "encoder_tokens": 10
+    },
+    "S38": {
+      "generator_tokens": 12,
+      "encoder_tokens": 15
+    },
+    "S39": {
+      "generator_tokens": 13,
+      "encoder_tokens": 12
+    },
+    "S40": {
+      "generator_tokens": 13,
+      "encoder_tokens": 15
+    },
+    "S41": {
+      "generator_tokens": 13,
+      "encoder_tokens": 13
+    },
+    "S42": {
+      "generator_tokens": 12,
+      "encoder_tokens": 15
+    },
+    "S43": {
+      "generator_tokens": 11,
+      "encoder_tokens": 10
+    },
+    "S44": {
+      "generator_tokens": 12,
+      "encoder_tokens": 13
+    },
+    "S45": {
+      "generator_tokens": 11,
+      "encoder_tokens": 11
+    },
+    "S46": {
+      "generator_tokens": 9,
+      "encoder_tokens": 9
+    },
+    "S47": {
+      "generator_tokens": 17,
+      "encoder_tokens": 19
+    },
+    "S48": {
+      "generator_tokens": 16,
+      "encoder_tokens": 19
+    }
+  }
+}

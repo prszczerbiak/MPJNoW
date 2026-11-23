@@ -1,0 +1,19 @@
+protocol_version: model-assisted-v2
+model_name: Qwen/Qwen2.5-1.5B-Instruct
+model_revision: 989aa7980e4cf806f80c7fef2b1adb7bc71aa306
+precision: bfloat16
+quantization: 4bit
+quantization_type: nf4
+double_quantization: true
+quantization_justification: Separate evaluator for a 4 GiB GPU, loaded after the generator
+  exits.
+device_map: cuda:0
+attn_implementation: sdpa
+context_budget: 16384
+max_new_tokens: 6144
+seed: 27182
+audit_fraction: 0.1
+reviewers:
+- student_1
+- student_2
+output_directory: outputs/evaluation

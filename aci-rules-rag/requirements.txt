@@ -1,0 +1,12 @@
+torch
+transformers>=4.37,<5
+accelerate
+bitsandbytes>=0.43
+sentence-transformers
+numpy
+pandas
+scipy>=1.15
+statsmodels
+scikit-learn
+pyyaml
+pytest

@@ -1,0 +1,43 @@
+{
+  "repository": "https://github.com/wyim/aci-bench.git",
+  "repository_commit": "b909b2bb9cf1d19de08df15cddde7bd0179665e4",
+  "files": [
+    {
+      "split": "train",
+      "path": "data/challenge_data/train.csv",
+      "sha256": "d386fc0438d579f00009696c007afd7b2cd35b0884420e5b8ae64d4ba5ec37c7"
+    },
+    {
+      "split": "valid",
+      "path": "data/challenge_data/valid.csv",
+      "sha256": "248d40bd13a37fb9071437906e2367565ca354c9439a11d9b5a12e956596cc6c"
+    },
+    {
+      "split": "test1",
+      "path": "data/challenge_data/clinicalnlp_taskB_test1.csv",
+      "sha256": "542cebbfea3c8b5c7d6369e2e81ab6dd91e9262678cb86d2fd975005d27929af"
+    },
+    {
+      "split": "test2",
+      "path": "data/challenge_data/clinicalnlp_taskC_test2.csv",
+      "sha256": "2ff7b308db6ddb0b7d87886b72423427f1f8d262bbf8368b7a50fb15bbc5c682"
+    },
+    {
+      "split": "test3",
+      "path": "data/challenge_data/clef_taskC_test3.csv",
+      "sha256": "95e82933dfcdaa68ec18ce68b5921d3c92542ae7a81401b1263b649adf60fd1d"
+    }
+  ],
+  "counts": {
+    "train": 67,
+    "valid": 20,
+    "test1": 40,
+    "test2": 40,
+    "test3": 40
+  },
+  "duplicate_texts": [],
+  "normalization": "Unicode NFC and LF only",
+  "unique_encounter_ids": 207,
+  "consultations_sha256": "b06bb45fd87dead56d7f11138bd92ac054d4d2c9ebe6f14ab7fa0912b1b7634e",
+  "references_sha256": "5e9239b043fc6866454726cd709c0ea2a8b7ab575151b377420d8a1fc36da5b5"
+}

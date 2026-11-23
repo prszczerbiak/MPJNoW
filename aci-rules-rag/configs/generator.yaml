@@ -1,0 +1,22 @@
+model_name: Qwen/Qwen2.5-3B-Instruct
+model_revision: aa8e72537993ba99e69dfaafa59ed015b17504d1
+tokenizer_name: Qwen/Qwen2.5-3B-Instruct
+precision: bfloat16
+quantization: 4bit
+quantization_type: nf4
+double_quantization: true
+quantization_justification: NVIDIA RTX 3050 Ti Laptop GPU with 4 GiB VRAM; identical
+  quantization for A, B and C.
+loading_method: from_pretrained
+device_map: cuda:0
+attn_implementation: sdpa
+do_sample: true
+temperature: 0.2
+top_p: 0.9
+top_k: 0
+max_new_tokens: 1024
+repetition_penalty: 1.0
+batch_size: 1
+context_budget: 8192
+output_reserve: 1024
+max_prompt_tokens: 7168

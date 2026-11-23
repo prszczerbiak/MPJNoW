@@ -1,0 +1,18 @@
+run_id: null
+dataset_version: official-challenge-csv
+repository_commit: b909b2bb9cf1d19de08df15cddde7bd0179665e4
+test_split: test1
+seeds: [17, 42, 2026]
+execution_seed: 31415
+annotation_seed: 27182
+resampling_seed: 20261021
+rules_sha256: f58547cb07207977c96ef1a3f26eb9cd94cd6ca08be0591ace7964b2c6998d33
+output_directory: outputs
+code_version: null
+max_exclusion_fraction: 0.05
+max_technical_missing_fraction: 0.05
+permutation_resamples: 99999
+bootstrap_resamples: 10000
+noninferiority_margin: 0.05
+alpha: 0.05
+
