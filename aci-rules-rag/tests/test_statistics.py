@@ -53,6 +53,21 @@ def test_two_level_macro_average():
     assert audit["technical_missing_fraction"]["C"] == 0
 
 
+@pytest.mark.parametrize("method", ["automatic", None])
+def test_only_human_assessments_are_accepted(method):
+    frame = synthetic_frame()
+    frame["evaluation_method"] = method
+    with pytest.raises(ProtocolError, match="Only human"):
+        aggregate(frame)
+
+
+def test_explicit_human_assessments_are_accepted():
+    frame = synthetic_frame()
+    frame["evaluation_method"] = "human"
+    means, _, _ = aggregate(frame)
+    assert len(means) == 8
+
+
 def test_missingness_and_environment_guards():
     frame = synthetic_frame()
     frame.loc[frame.variant == "C", "status"] = "technical_failure"

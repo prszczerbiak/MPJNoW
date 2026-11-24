@@ -1,15 +1,13 @@
 """Testy profilu 3B i kwantyzacji bez ładowania wag ani używania GPU."""
-from pathlib import Path
 from unittest.mock import Mock
 
 import pytest
 import torch
 import transformers
 
-from src.common import ProtocolError, config
+from src.common import ProtocolError
 from src.generate_notes import LocalGenerator, MODEL, execute, plan_tasks, validate_config
-from src.evaluate_notes import LocalJudge
-from src.model_loading import EVALUATOR_MODEL, loading_kwargs, validate_loading
+from src.model_loading import loading_kwargs, validate_loading
 
 
 def test_generator_identity_and_4bit_profile(configs):
@@ -52,7 +50,7 @@ def test_unsupported_dtype_or_quantization(configs, monkeypatch):
         validate_loading(gen)
 
 
-def test_loaders_use_distinct_models_and_quantization(configs, monkeypatch):
+def test_generator_loader_uses_pinned_model_and_quantization(configs, monkeypatch):
     monkeypatch.setattr(torch.cuda, "is_available", lambda: True)
     monkeypatch.setattr(torch.cuda, "is_bf16_supported", lambda: True)
     tokenizer_loader = Mock()
@@ -60,14 +58,9 @@ def test_loaders_use_distinct_models_and_quantization(configs, monkeypatch):
     monkeypatch.setattr(transformers.AutoTokenizer, "from_pretrained", tokenizer_loader)
     monkeypatch.setattr(transformers.AutoModelForCausalLM, "from_pretrained", model_loader)
     LocalGenerator(configs[0])
-    evaluator = config(Path(__file__).parents[1] / "configs/evaluation.yaml")
-    evaluator["model_revision"] = "b"*40
-    LocalJudge(evaluator)
-    assert [call.args[0] for call in model_loader.call_args_list] == [MODEL, EVALUATOR_MODEL]
-    assert EVALUATOR_MODEL == "Qwen/Qwen2.5-1.5B-Instruct"
+    assert [call.args[0] for call in model_loader.call_args_list] == [MODEL]
     assert all(call.kwargs["quantization_config"].load_in_4bit for call in model_loader.call_args_list)
     assert model_loader.call_args_list[0].kwargs["revision"] == configs[0]["model_revision"]
-    assert model_loader.call_args_list[1].kwargs["revision"] == "b"*40
 
 
 def test_generation_records_identify_3b(tmp_path, records, rules, retrieval, tokenizer, configs):

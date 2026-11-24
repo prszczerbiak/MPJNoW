@@ -5,21 +5,18 @@ Import modułów nie uruchamia generowania. Pobieranie modeli następuje dopiero
 przy wywołaniu poleceń indeksowania, walidacji tokenizerów lub inferencji.
 Projekt nie korzysta z płatnych API.
 
-Podstawowy tryb oceny to model_assisted_v2. Moduł evaluate_notes automatyzuje
-listy faktów, podział twierdzeń i etykiety, a następnie obsługuje audyt i wyjątki.
-Szczegółowy format zapisów opisuje [dokumentacja oceny](AUTOMATIC_EVALUATION.md).
-Dotychczasowe moduły anotacji pozostają dostępne jako osobny tryb ręczny.
+Fakty, podział twierdzeń i oceny przygotowują ludzie. Program obsługuje
+formularze, zaślepienie, walidację oraz obliczenia. Procedurę opisuje
+[instrukcja anotacji](ANNOTATION_GUIDELINES.md).
 
 Moduł `model_loading.py` ustala parametry NF4, podwójnej kwantyzacji, typu obliczeń
-i urządzenia dla obu modeli. Brak CUDA zatrzymuje inferencję przed pobraniem wag.
+i urządzenia dla generatora. Brak CUDA zatrzymuje inferencję przed pobraniem wag.
 
 ## Moduły
 
 | Moduł | Odpowiedzialność |
 |---|---|
 | `configure_run.py` | Automatyczne uzupełnianie identyfikatora przebiegu, rewizji i sum źródeł |
-| `evaluate_notes.py` | Lokalny weryfikator, kontrola cytatów, kolejka audytu i eksport ocen modelowych |
-| `evaluation_prompts.py` | Wersjonowane polecenia ekstrakcji i oceny |
 | `common.py` | Atomowy zapis UTF-8, SHA-256, deterministyczne sumy JSON i ochrona zatwierdzonych plików |
 | `prepare_data.py` | Wyszukiwanie CSV, kontrola schematu i integralności źródeł, podziałów, identyfikatorów i duplikatów; oddzielenie referencji |
 | `build_index.py` | Walidacja 60 reguł, limity tokenizerów, rewizja enkodera, zapis wektorów i metadanych |
@@ -107,7 +104,7 @@ Nie ma synchronizacji rozproszonej ani transakcji obejmującej kilka plików.
 Jeśli etap zostanie przerwany w trakcie zapisu wielu plików, należy powtórzyć go
 z tymi samymi wejściami. Zatwierdzonych plików nie należy edytować ręcznie.
 
-## Opcjonalny tryb pełnej anotacji ręcznej
+## Pełna anotacja ręczna
 
 `annotations/private/` jest dostępny tylko koordynatorowi. Anotator otrzymuje
 swój katalog pakietów. Listy wymaganych faktów są zamrażane przed udostępnieniem
@@ -129,13 +126,12 @@ wartości metryk oraz ponad 5% awarii w dowolnym wariancie.
 Najpierw uśredniane są kompletne grupy powtórzeń. Cztery testy obejmują wspólne
 kompletne konsultacje A/B/C. Niepełne grupy pozostają w raporcie braków.
 
-## Pochodzenie ocen modelowych
+## Pochodzenie ocen ręcznych
 
-Oceny modelowe mają osobny katalog outputs/evaluation i pole evaluation_method.
-Agregacja wymaga jawnego trybu model-assisted; mieszanie metod lub środowisk
-weryfikatora jest blokowane. Korekty ludzi nie zmieniają klasyfikacji całego
-zbioru na pełną anotację ręczną. Eksport metryk wymaga rozstrzygnięcia kolejki
-i zgodności sum kontrolnych odpowiedzi oraz list faktów.
+Metryki powstają wyłącznie z zatwierdzonych rozstrzygnięć w katalogu
+`adjudicated`. Pole `evaluation_method` ma wartość `human`. Agregacja
+odrzuca inne pochodzenie ocen. Sumy kontrolne wiążą oceny z listami
+faktów i udostępnionymi notatkami.
 
 ## Zakres weryfikacji i ograniczenia
 
@@ -164,18 +160,14 @@ Przypięty obraz Dockera służy do testów CPU. Wykonanie na GPU wymaga zgodneg
 `bitsandbytes` należy do zależności; testy CPU nie potwierdzają działania jego jąder CUDA.
 Repozytorium nie zawiera wag modeli ani wygenerowanych wyników eksperymentu.
 
-Testy test_automatic_evaluation.py obejmują dwa przebiegi oceny, rozbieżności,
-nieistniejące cytaty, losowanie audytu, wznowienia i blokowanie niekompletnych ocen.
-Wykorzystują atrapy, bez uruchamiania rzeczywistego weryfikatora.
-
 ## Przygotowanie eksperymentu
 
-Potwierdź decyzje z `PROTOCOL.md`, przypisz dwie osoby do kontroli audytowej, przejrzyj
+Potwierdź decyzje z `PROTOCOL.md`, przypisz dwóch anotatorów i trzecią osobę rozstrzygającą, przejrzyj
 reguły, uruchom `python -m src.configure_run`, wybierz nowy katalog wyników
 oraz utrwal konfigurację i sumy źródeł.
 
 Rewizje modeli można ustalić narzędziem walidacji tokenizerów. Po zamrożeniu nie
-należy ich zmieniać. Zamknij kolejkę kontroli list faktów przed oceną notatek.
+należy ich zmieniać. Zamroź ręcznie uzgodnione listy faktów przed oceną notatek.
 Sprawdź GPU, CUDA, typ obliczeń i sposób ładowania, wykonaj pomiar na najdłuższych
 promptach i przejrzyj raport czasu oraz pamięci przed `run --execute`.
 Tych wywołań generatora nie wykonano podczas przygotowania repozytorium.

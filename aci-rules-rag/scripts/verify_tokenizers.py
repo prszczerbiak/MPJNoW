@@ -18,10 +18,8 @@ def main():
     args = parser.parse_args()
     gen = config(ROOT / "configs/generator.yaml")
     retrieval = config(ROOT / "configs/retrieval.yaml")
-    evaluation = config(ROOT / "configs/evaluation.yaml")
     for cfg, model_key, revision_key, file in ((gen, "model_name", "model_revision", "generator.yaml"),
-                                              (retrieval, "embedding_model", "embedding_model_revision", "retrieval.yaml"),
-                                              (evaluation, "model_name", "model_revision", "evaluation.yaml")):
+                                              (retrieval, "embedding_model", "embedding_model_revision", "retrieval.yaml")):
         if cfg[revision_key] is None:
             if not args.resolve_revisions:
                 raise SystemExit("Fill immutable revisions or pass --resolve-revisions before protocol freeze")

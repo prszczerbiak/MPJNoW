@@ -16,10 +16,8 @@ def aggregate(frame, expected_tasks=None):
         raise ProtocolError("Primary analysis requires nonempty test1 data only")
     if frame["run_id"].nunique(dropna=False) != 1 or frame["environment_id"].nunique(dropna=False) != 1:
         raise ProtocolError("Never pool runs or computational environments")
-    if "evaluation_method" in frame and (frame.evaluation_method.isna().any() or frame.evaluation_method.nunique() != 1):
-        raise ProtocolError("Never pool human and model-assisted assessments")
-    if "evaluation_id" in frame and (frame.evaluation_id.isna().any() or frame.evaluation_id.nunique() != 1):
-        raise ProtocolError("Never pool evaluator environments or protocols")
+    if "evaluation_method" in frame and (frame.evaluation_method.isna().any() or set(frame.evaluation_method) != {"human"}):
+        raise ProtocolError("Only human assessments are supported")
     if frame.duplicated(["encounter_id", "variant", "seed"]).any() or frame["task_id"].duplicated().any():
         raise ProtocolError("Duplicate task or repetition")
     if expected_tasks is not None and set(frame["task_id"]) != {t["task_id"] for t in expected_tasks}:
@@ -125,13 +123,12 @@ def main():
     parser.add_argument("--metrics", default="outputs/metrics.csv")
     parser.add_argument("--plan", default="outputs/frozen_plan.json")
     parser.add_argument("--output", default="outputs")
-    parser.add_argument("--evaluation-mode", choices=["human", "model-assisted"], default="human")
     args = parser.parse_args()
     plan = read_json(args.plan)
     if plan["blocked"]:
         raise ProtocolError("Primary inference blocked by prompt exclusions")
     frame = pd.read_csv(args.metrics)
-    expected_method = "model_assisted_v2" if args.evaluation_mode == "model-assisted" else "human"
+    expected_method = "human"
     methods = set(frame.evaluation_method) if "evaluation_method" in frame else {"human"}
     if methods != {expected_method}:
         raise ProtocolError("Explicit analysis mode must match assessment provenance")
@@ -145,8 +142,7 @@ def main():
     atomic_write(output / "consultation_means.csv", means.to_csv(index=False))
     atomic_write(output / "macro_means.csv", macro.to_csv(index=False))
     statistics = paired_tests(means)
-    statistics.update(evaluation_method=expected_method,
-                      inference_scope="exploratory_model_assisted" if args.evaluation_mode == "model-assisted" else "human_assessed")
+    statistics.update(evaluation_method=expected_method, inference_scope="human_assessed")
     write_json(output / "statistics.json", statistics)
 
 

@@ -3,13 +3,23 @@ __pycache__/
 .pytest_cache/
 .setup-cache/
 *.egg-info/
-data/raw/aci-bench/
-data/processed/*
-!data/processed/.gitkeep
-outputs/*
-!outputs/.gitkeep
-!outputs/logs/
-outputs/logs/*
-!outputs/logs/.gitkeep
-annotations/*
-!annotations/.gitkeep
+# Pobrane dane i ich lokalne kopie zapasowe.
+/data/raw/*
+!/data/raw/.gitkeep
+
+# Dane po przetworzeniu, indeksy i raporty z lokalnego środowiska.
+/data/processed/*
+!/data/processed/.gitkeep
+/data/manifests/*
+!/data/manifests/.gitkeep
+
+# Notatki, pomiary, metryki, analizy i logi eksperymentu.
+/outputs/*
+!/outputs/.gitkeep
+!/outputs/logs/
+/outputs/logs/*
+!/outputs/logs/.gitkeep
+
+# Pakiety anotacji, oceny ludzi i klucze zaślepienia.
+/annotations/*
+!/annotations/.gitkeep

@@ -2,7 +2,6 @@
 from .common import ProtocolError
 
 GENERATOR_MODEL = "Qwen/Qwen2.5-3B-Instruct"
-EVALUATOR_MODEL = "Qwen/Qwen2.5-1.5B-Instruct"
 
 
 def validate_loading(cfg):

@@ -1,7 +1,8 @@
-# Protokół badawczy — wersja 3
+# Protokół badawczy — wersja 4
 
-Repozytorium zawiera środowisko do przeprowadzenia badania, bez wyników i wniosków
-eksperymentalnych. Analiza główna obejmuje oficjalny zbiór `test1`. Zbiory `train`
+Repozytorium zawiera środowisko do przeprowadzenia badania. Artefakty przebiegów
+są zapisywane lokalnie w `outputs/`.
+Analiza główna obejmuje oficjalny zbiór `test1`. Zbiory `train`
 i `valid` służą do kontroli technicznej i dopracowania protokołu przed jego
 zamrożeniem. `test2` i `test3` są przeznaczone do osobno zadeklarowanych analiz
 dodatkowych. Nie wolno dobierać parametrów na zbiorach testowych, łączyć podziałów
@@ -9,12 +10,11 @@ ani stosować walidacji krzyżowej.
 
 ## Wersja metody oceny
 
-Podstawowym trybem projektu jest ocena modelowa z audytem dwóch studentów,
-oznaczona jako model_assisted_v2. Zastępuje ona pierwotną pełną anotację ręczną.
-Zmiana dotyczy źródła list faktów, podziału na twierdzenia i etykiet, dlatego
-wyniki mają charakter eksploracyjny. Wzory metryk i porównania wariantów pozostają
-bez zmian. Pełna anotacja ręczna jest dostępna wyłącznie jako tryb opcjonalny
-i nie może być łączona z ocenami modelowymi.
+Obowiązuje pełna anotacja ręczna. Dwie osoby niezależnie przygotowują fakty
+oraz oceniają notatki; trzecia osoba uzgadnia listy i rozstrzyga oceny.
+Program nie tworzy list faktów ani etykiet P/S/N. Formularze, walidacja,
+zaślepienie, obliczanie zgodności i metryk pozostają zautomatyzowane.
+Metryki są oznaczone jako `evaluation_method=human`.
 
 ## Dane i pochodzenie
 
@@ -79,9 +79,7 @@ na docelową kartę NVIDIA RTX 3050 Ti Laptop z 4 GiB VRAM. Wagi są ładowane
 w 4 bitach (NF4, podwójna kwantyzacja), a obliczenia wykorzystują bfloat16.
 Wszystkie warianty A/B/C mają tę samą konfigurację kwantyzacji i ładowania.
 
-Weryfikator to osobny Qwen2.5-1.5B-Instruct, również w NF4 z obliczeniami bfloat16.
-Modele pracują kolejno i nie muszą jednocześnie zajmować pamięci GPU. Do ładowania
-służy bitsandbytes. Profil wymaga PyTorch z CUDA i jawnie wybiera cuda:0;
+Do ładowania generatora służy bitsandbytes. Profil wymaga PyTorch z CUDA i jawnie wybiera cuda:0;
 nie przełącza się automatycznie na CPU ani na inną precyzję.
 
 Zmiana modelu lub kwantyzacji wymaga nowego przebiegu, ponownej walidacji
@@ -127,36 +125,22 @@ więc przerwane wywołanie również zużywa limit. Odmowa, niepotwierdzona tre�
 i niewłaściwa długość odpowiedzi nie uzasadniają ponowienia. Ukończone odpowiedzi
 nie są zmieniane przy wznowieniu. Katalog przebiegu obsługuje jeden proces zapisujący.
 
-## Ocena modelowa i audyt
+## Ręczna ocena
 
-Lokalny weryfikator Qwen/Qwen2.5-1.5B-Instruct tworzy wymagane fakty wyłącznie
-z transkrypcji. Nie otrzymuje notatek referencyjnych ani wygenerowanych na tym
-etapie. Lista zawiera identyfikatory, kategorie, treść, dokładne fragmenty źródła,
-uzasadnienia i znaczniki niepewności. K musi być dodatnie.
+Przed udostępnieniem notatek dwaj anotatorzy niezależnie tworzą wymagane fakty
+z transkrypcji. Każdy fakt zawiera kategorię, treść, dokładny cytat i uzasadnienie
+istotności. Trzeci anotator zatwierdza końcową listę. K musi być dodatnie.
+Po udostępnieniu notatek listy faktów pozostają zamrożone.
 
-Po rozstrzygnięciu kontroli list faktów weryfikator dzieli notatki na twierdzenia
-atomowe, przypisuje P/S/N i ocenia odtworzenie każdego faktu. Drugi przebieg
-ocenia ten sam podział bez dostępu do pierwszych etykiet. Nie jest to drugi
-niezależny anotator. Zgodność obu przebiegów nie gwarantuje poprawności oceny.
+Notatki są zaślepiane: pakiety nie ujawniają wariantu, ziarna ani promptu.
+Obaj anotatorzy sprawdzają ręczny podział na twierdzenia, po czym niezależnie
+nadają P/S/N oraz oceniają odtworzenie każdego faktu. P i S wymagają cytatu.
+Człowiek klasyfikuje także puste odpowiedzi, odmowy i brak twierdzeń klinicznych.
 
-Do człowieka trafiają rozbieżności, niepewność, wadliwe cytaty lub struktura,
-niepuste odpowiedzi bez twierdzeń klinicznych i awarie weryfikatora. Dodatkowo
-kontrolowane jest losowe 10% list faktów i 10% notatek osobno w E/A/B/C,
-z zaokrągleniem w górę i minimum jedną pozycją na niepustą grupę. Losowanie
-nie zależy od etykiet; ziarno wynosi 27182. Nie ogranicza się liczby dodatkowych
-przypadków wymagających kontroli.
-
-Każdy pakiet może zatwierdzić student_1 albo student_2 po porównaniu ze źródłem.
-Wątpliwości pozostają otwarte do wspólnego rozstrzygnięcia. Trzecia rola nie jest
-wymagana. Pakiety nie pokazują wariantu ani ziarna. Kontroler sprawdza również
-pominięte fakty i twierdzenia. Eksport wymaga zamknięcia całej kolejki.
-
-Zapisy zachowują surowe odpowiedzi, pochodzenie ocen, osobę kontrolującą,
-uzasadnienie i sumy kontrolne wejść. Raport audytu podaje liczebność próbki
-oraz liczbę korekt. Nie raportuje się zgodności ludzi na podstawie wywołań modelu.
-Generator i weryfikator należą do tej samej rodziny; ryzyko wspólnych błędów
-ogranicza interpretację wyników. Szczegóły zawiera
-[opis oceny automatycznej](AUTOMATIC_EVALUATION.md).
+Trzeci anotator zapisuje końcowe decyzje i uzasadnienia. Program zachowuje
+zgłoszenia pierwotne oraz ich sumy kontrolne i nie wybiera rozstrzygnięcia.
+Zgodność surową, kappę Cohena i macierz P/S/N oblicza się przed uzgodnieniem.
+Pełne formaty i kolejność pracy opisuje `ANNOTATION_GUIDELINES.md`.
 
 ## Metryki i braki danych
 
@@ -189,7 +173,7 @@ z różnych środowisk obliczeniowych nie wolno łączyć.
 
 ## Zaplanowana analiza statystyczna
 
-Na `test1`, po uśrednieniu powtórzeń w konsultacjach, sprawdzane są cztery hipotezy. W bieżącej wersji dotyczą one wskaźników weryfikatora i mają charakter eksploracyjny:
+Na `test1`, po uśrednieniu powtórzeń w konsultacjach, sprawdzane są cztery hipotezy. Metryki opierają się na ręcznie zatwierdzonych ocenach:
 
 1. `H*_C - H*_A < 0`.
 2. `H*_C - H*_B < 0`.
@@ -214,13 +198,13 @@ konsultacji, z zachowaniem sparowania metod i średnich po ziarnach. Są to
 dwustronne przedziały opisowe, bez korekty wielokrotnych porównań.
 E nie uczestniczy w czterech testach.
 
-Zgodność surowa, kappa Cohena i macierz P/S/N są dostępne wyłącznie w opcjonalnym trybie pełnej, niezależnej anotacji ręcznej. Wersja modelowa raportuje kontrole i korekty w próbce audytowej, bez kappy między wywołaniami modelu.
+Zgodność surowa, kappa Cohena i macierz P/S/N opisują niezależne oceny ludzi sprzed uzgodnienia.
 
 ## Decyzje wymagające potwierdzenia przed zamrożeniem
 
 - Oficjalne pełne pliki CSV jako podstawowa reprezentacja transkrypcji.
 - Przegląd 60 reguł bez wglądu w wyniki testowe.
-- Model weryfikujący, odsetek audytu, wymagane dowody i podział kontroli między dwie osoby.
+- Przydział dwóch niezależnych anotatorów i trzeciej osoby rozstrzygającej oraz wymagane dowody źródłowe.
 - Wymóg `K > 0`, obsługa braków technicznych, konwencja przedziałów bootstrapowych
   i zatrzymanie przy zdegenerowanym teście t.
 - Sprzęt, ewentualny wyjątek kwantyzacji oraz niezmienne wersje przebiegu i kodu.

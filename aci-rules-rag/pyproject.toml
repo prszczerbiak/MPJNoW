@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "aci-rules-rag"
 version = "0.1.0"
-description = "Clinical summarisation research with local model-assisted evaluation and human audit"
+description = "Clinical summarisation research with manual annotation and paired statistical analysis"
 requires-python = ">=3.11,<3.12"
 dynamic = ["dependencies"]
 

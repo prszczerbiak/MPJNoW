@@ -1,9 +1,7 @@
-# Pełna anotacja ręczna — tryb opcjonalny
+# Instrukcja ręcznej anotacji
 
-Ten dokument opisuje pierwotną procedurę badawczą z dwiema niezależnymi ocenami
-i trzecią osobą rozstrzygającą spory. Nie jest wymagany w podstawowym przebiegu
-projektu dwuosobowego. Aktualny tryb opisuje [ocena modelowa z audytem](AUTOMATIC_EVALUATION.md).
-Wyników obu procedur nie należy łączyć.
+Obowiązują dwie niezależne oceny i trzecia osoba rozstrzygająca.
+Jest to podstawowa i jedyna procedura oceny treści w projekcie.
 
 Oceny kliniczne należą do anotatorów. Sprawdzenie formatu, identyfikatora lub
 obecności cytatu nie jest oceną prawdziwości twierdzenia. Etykiet nie należy
